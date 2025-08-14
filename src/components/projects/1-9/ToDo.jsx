@@ -4,43 +4,47 @@ const ToDo = () => {
   const [todos, setTodos] = useState([]);
   const [input, setInput] = useState("");
 
-  function handleSubmit() {
-    setTodos((todos) => {
-      return todos.concat({
-        text: input,
-        id: Math.floor(Math.random() * 10000),
-      });
-    });
-
+  const handleSubmit = () => {
+    if (input.trim() === "") return;
+    setTodos((prevTodos) => [...prevTodos, { text: input, id: Math.floor(Math.random() * 10000) }]);
     setInput("");
-  }
+  };
 
-  function removeTodo(id) {
-    setTodos((todos) => todos.filter((t) => t.id !== id));
-  }
+  const removeTodo = (id) => {
+    setTodos((prevTodos) => prevTodos.filter((t) => t.id !== id));
+  };
 
   return (
-    <div className="bg-[#fcfff3] p-[50px]">
-      <input
-        className="p-[15px] border-none outline-none bg-[#f5f9eb] w-[300px] mr-[10px]"
-        type="text"
-        placeholder="New Todo"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-      />
+    <div className="flex flex-col items-center min-h-screen bg-green-50 p-6">
+      <h1 className="text-3xl font-bold mb-6 text-gray-800">My ToDo List</h1>
 
-      <button
-        className="rounded-[100px] bg-[#454545] outline-none border-none text-white cursor-pointer p-[10px] px-[20px]"
-        onClick={handleSubmit}
-      >
-        Submit
-      </button>
+      <div className="flex mb-6">
+        <input
+          type="text"
+          placeholder="New Todo"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          className="px-4 py-3 w-64 rounded-l-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-400 transition"
+        />
+        <button
+          onClick={handleSubmit}
+          className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-r-xl font-semibold shadow-md transition-transform transform hover:scale-105"
+        >
+          Add
+        </button>
+      </div>
 
-      <ul className="mt-[3rem]">
+      <ul className="w-full max-w-md space-y-4">
         {todos.map(({ text, id }) => (
-          <li key={id} className="list-none flex justify-between items-center bg-[#f5f9eb] py-[7px] px-[20px] m-[10px] font-sans">
-            <span>{text}</span>
-            <button className="py-[5px] px-[10px] cursor-pointer" onClick={() => removeTodo(id)}>
+          <li
+            key={id}
+            className="flex justify-between items-center bg-white p-4 rounded-2xl shadow-md transition hover:shadow-lg"
+          >
+            <span className="text-gray-800">{text}</span>
+            <button
+              onClick={() => removeTodo(id)}
+              className="text-red-500 font-bold px-3 py-1 rounded-lg hover:bg-red-100 transition"
+            >
               X
             </button>
           </li>

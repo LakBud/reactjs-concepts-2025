@@ -1,26 +1,30 @@
 import { useState } from "react";
 
 const ToggleBackgroundColor = () => {
-  const [backgroundColor, setBackgroundColor] = useState("white");
-  const [textColor, setTextColor] = useState("#1b1b1b");
-  const [buttonStyle, setButtonStyle] = useState("white");
+  const [isDark, setIsDark] = useState(false);
 
-  function handleClick() {
-    setBackgroundColor(backgroundColor === "white" ? "#1b1b1b" : "white");
-    setTextColor(textColor === "#1b1b1b" ? "#ffa31a" : "#1b1b1b");
-    setButtonStyle(backgroundColor === "white" ? "#1b1b1b" : "white");
-  }
+  const handleClick = () => setIsDark(!isDark);
 
   return (
-    <div style={{ backgroundColor, color: textColor }}>
-      <button onClick={handleClick} style={{ buttonStyle, color: textColor, border: `2px solid ${textColor}` }}>
-        {backgroundColor == "#1b1b1b" ? "Black Theme" : "White Theme"}
+    <div
+      className={`flex flex-col items-center justify-center min-h-screen transition-colors duration-500 ${
+        isDark ? "bg-gray-900 text-yellow-400" : "bg-white text-gray-900"
+      }`}
+    >
+      <button
+        onClick={handleClick}
+        className={`mb-10 px-6 py-3 rounded-full font-semibold border-2 transition-colors duration-300 ${
+          isDark
+            ? "bg-gray-900 border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-gray-900"
+            : "bg-white border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white"
+        }`}
+      >
+        {isDark ? "Black Theme" : "White Theme"}
       </button>
 
-      <section className="content">
-        <h1>
-          Welcome To a <br />
-          Real World..
+      <section className="text-center">
+        <h1 className="text-4xl md:text-6xl font-bold leading-snug">
+          Welcome To a <br /> Real World..
         </h1>
       </section>
     </div>
